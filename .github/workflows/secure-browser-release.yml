@@ -46,6 +46,12 @@ jobs:
           npm install 
           npm link @packages/api-client
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
         run: |-
@@ -61,14 +67,8 @@ jobs:
       - name: build-win
         if: matrix.os == 'windows-latest'
         run: |-
-          cd desktop-app
+          cd app/desktop-app
           npm run build:win
-
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
   
       - name: release
         uses: softprops/action-gh-release@v1
