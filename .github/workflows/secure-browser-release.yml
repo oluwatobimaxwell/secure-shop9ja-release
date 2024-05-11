@@ -1,0 +1,91 @@
+name: Build/release Desktop app
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '!*'
+    # paths:
+    #   - "desktop-app/**"
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+        
+      - name: Clone Project
+        run: git clone https://github.com/oluwatobimaxwell/bet9ja-cashier-mgt.git .
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Link API Client Package
+        run: |-
+          cd packages/api-client 
+          npm link
+        
+      - name: Install Electron Dependencies
+        run: |-
+          cd desktop-app
+          npm install 
+          npm link @packages/api-client
+
+      - name: build-linux
+        if: matrix.os == 'ubuntu-latest'
+        run: npm run build:linux
+
+      - name: build-mac
+        if: matrix.os == 'macos-latest'
+        run: |-
+          cd desktop-app
+          npm run build:mac
+
+      - name: build-win
+        if: matrix.os == 'windows-latest'
+        run: |-
+          cd desktop-app
+          npm run build:win
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+  
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: 'Changes in this Release: ${{ steps.tag_version.outputs.changelog }}'
+          draft: false
+          prerelease: false
+          files: |
+            desktop-app/dist/*.exe
+            desktop-app/dist/*.zip
+            desktop-app/dist/*.dmg
+            desktop-app/dist/*.AppImage
+            desktop-app/dist/*.snap
+            desktop-app/dist/*.exe
+            desktop-app/dist/*.deb
+            desktop-app/dist/*.rpm
+            desktop-app/dist/*.tar.gz
+            desktop-app/dist/*.yml
+            desktop-app/dist/*.blockmap
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
