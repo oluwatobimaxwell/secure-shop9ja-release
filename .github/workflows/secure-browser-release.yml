@@ -38,7 +38,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
         with:
-          repository: 'oluwatobimaxwell/bet9ja-cashier-mgt'
+          repository: ${{ secrets.APP_REPO }}
           token: ${{ secrets.ACCESS_TOKEN }}
           path: 'app'
 
