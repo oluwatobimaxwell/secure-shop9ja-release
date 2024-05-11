@@ -1,13 +1,8 @@
 name: Build/release Desktop app
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - '!*'
-    # paths:
-    #   - "desktop-app/**"
+  repository_dispatch:
+    types: [trigger-action]
 
 jobs:
   create-tag:
