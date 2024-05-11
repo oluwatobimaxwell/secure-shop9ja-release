@@ -10,7 +10,24 @@ on:
     #   - "desktop-app/**"
 
 jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+      changelog: ${{ steps.tag_version.outputs.changelog }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          default_bump: minor
+
   release:
+    needs: create-tag
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -46,12 +63,6 @@ jobs:
           npm install 
           npm link @packages/api-client
 
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
-
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
         run: |-
@@ -73,9 +84,9 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: 'Changes in this Release: ${{ steps.tag_version.outputs.changelog }}'
+          tag_name: ${{ needs.create-tag.outputs.new_tag }}
+          name: Release ${{ needs.create-tag.outputs.new_tag }}
+          body: 'Changes in this Release: ${{ needs.create-tag.outputs.changelog }}'
           draft: false
           prerelease: false
           files: |
