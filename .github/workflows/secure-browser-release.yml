@@ -106,9 +106,8 @@ jobs:
           }
         shell: pwsh
         
-      - name: release (mac & linux)
+      - name: release
         uses: softprops/action-gh-release@v1
-        if: matrix.os != 'windows-latest'
         with:
           tag_name: ${{ needs.create-tag.outputs.new_tag }}
           name: Release ${{ needs.create-tag.outputs.new_tag }}
@@ -128,26 +127,3 @@ jobs:
             app/desktop-app/formatted-dist/*.tar.gz
             app/desktop-app/formatted-dist/*.yml
             app/desktop-app/formatted-dist/*.blockmap
-        
-      - name: release (windows)
-        if: matrix.os == 'windows-latest'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ needs.create-tag.outputs.new_tag }}
-          name: Release ${{ needs.create-tag.outputs.new_tag }}
-          body: 'Changes in this Release: ${{ needs.create-tag.outputs.changelog }}'
-          token: ${{ env.GH_TOKEN }}
-          draft: false
-          prerelease: false
-          files: |
-            app\desktop-app\formatted-dist\*.exe
-            app\desktop-app\formatted-dist\*.zip
-            app\desktop-app\formatted-dist\*.dmg
-            app\desktop-app\formatted-dist\*.AppImage
-            app\desktop-app\formatted-dist\*.snap
-            app\desktop-app\formatted-dist\*.exe
-            app\desktop-app\formatted-dist\*.deb
-            app\desktop-app\formatted-dist\*.rpm
-            app\desktop-app\formatted-dist\*.tar.gz
-            app\desktop-app\formatted-dist\*.yml
-            app\desktop-app\formatted-dist\*.blockmap
