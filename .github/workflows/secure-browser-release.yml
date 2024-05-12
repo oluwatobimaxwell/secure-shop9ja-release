@@ -84,8 +84,9 @@ jobs:
 
       - name: Remove spaces in file names
         run: |
+          mkdir -p formatted-artifacts
           for file in app/desktop-app/dist/*; do
-            mv "$file" "$(echo $file | tr ' ' '-')"
+            mv "$file" "formatted-artifacts/$(echo $file | tr ' ' '-')"
           done
   
       - name: release
@@ -98,14 +99,14 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            app/desktop-app/dist/*.exe
-            app/desktop-app/dist/*.zip
-            app/desktop-app/dist/*.dmg
-            app/desktop-app/dist/*.AppImage
-            app/desktop-app/dist/*.snap
-            app/desktop-app/dist/*.exe
-            app/desktop-app/dist/*.deb
-            app/desktop-app/dist/*.rpm
-            app/desktop-app/dist/*.tar.gz
-            app/desktop-app/dist/*.yml
-            app/desktop-app/dist/*.blockmap
+            formatted-artifacts/*.exe
+            formatted-artifacts/*.zip
+            formatted-artifacts/*.dmg
+            formatted-artifacts/*.AppImage
+            formatted-artifacts/*.snap
+            formatted-artifacts/*.exe
+            formatted-artifacts/*.deb
+            formatted-artifacts/*.rpm
+            formatted-artifacts/*.tar.gz
+            formatted-artifacts/*.yml
+            formatted-artifacts/*.blockmap
