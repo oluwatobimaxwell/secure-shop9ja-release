@@ -85,14 +85,14 @@ jobs:
         run: |-
           cd app/desktop-app
           npm run build:win
-
+      # latest -> lae -> dist
       - name: Remove spaces in file names - (none windows)
         if: matrix.os != 'windows-latest'
         run: |
           cd app/desktop-app
           mkdir -p formatted-dist
           for file in dist/*; do
-            mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | tr -d 'dist/')"
+            mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | sed 's|dist/||')"
           done
   
       - name: Remove spaces in file names - (windows)
