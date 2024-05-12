@@ -1,6 +1,10 @@
 name: Build/release Desktop app
 
 on:
+  push:
+    branches:
+      - main
+      
   repository_dispatch:
     types: [trigger-action]
 
@@ -87,7 +91,7 @@ jobs:
           cd app/desktop-app
           mkdir -p formatted-dist
           for file in dist/*; do
-            mv "$file" "app/desktop-app/formatted-dist/$(echo $file | tr ' ' '-')"
+            mv "$file" "formatted-dist/$(echo $file | tr ' ' '-')"
           done
   
       - name: release
