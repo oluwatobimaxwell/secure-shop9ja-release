@@ -22,6 +22,7 @@ jobs:
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           default_bump: minor
+          tag_prefix: ""
 
   release:
     needs: create-tag
@@ -84,6 +85,7 @@ jobs:
           tag_name: ${{ needs.create-tag.outputs.new_tag }}
           name: Release ${{ needs.create-tag.outputs.new_tag }}
           body: 'Changes in this Release: ${{ needs.create-tag.outputs.changelog }}'
+          token: ${{ secrets.ACCESS_TOKEN }}
           draft: false
           prerelease: false
           files: |
@@ -98,5 +100,3 @@ jobs:
             app/desktop-app/dist/*.tar.gz
             app/desktop-app/dist/*.yml
             app/desktop-app/dist/*.blockmap
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
