@@ -85,7 +85,7 @@ jobs:
       - name: Remove spaces in file names
         run: |
           for file in app/desktop-app/dist/*; do
-            mv "$file" "app/desktop-app/dist/$(echo $file | tr ' ' '-')"
+            mv "$file" "$(echo $file | tr ' ' '-')"
           done
   
       - name: release
