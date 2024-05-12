@@ -91,7 +91,7 @@ jobs:
           cd app/desktop-app
           mkdir -p formatted-dist
           for file in dist/*; do
-            mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | tr 'dist/' '')"
+            mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | tr -d 'dist/')"
           done
   
       - name: release
