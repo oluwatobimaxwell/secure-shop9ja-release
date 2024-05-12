@@ -86,7 +86,8 @@ jobs:
           cd app/desktop-app
           npm run build:win
 
-      - name: Remove spaces in file names
+      - name: Remove spaces in file names - (none windows)
+        if: matrix.os != 'windows-latest'
         run: |
           cd app/desktop-app
           mkdir -p formatted-dist
@@ -94,6 +95,17 @@ jobs:
             mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | tr -d 'dist/')"
           done
   
+      - name: Remove spaces in file names - (windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd app\desktop-app
+          mkdir formatted-dist -ErrorAction Ignore
+          Get-ChildItem dist\* -File | ForEach-Object {
+            $newName = $_.Name -replace ' ', '-'
+            Move-Item $_.FullName -Destination ("formatted-dist\" + $newName)
+          }
+        shell: pwsh
+        
       - name: release
         uses: softprops/action-gh-release@v1
         with:
