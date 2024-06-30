@@ -8,6 +8,9 @@ on:
   repository_dispatch:
     types: [trigger-action]
 
+permissions:
+  contents: write
+
 jobs:
   create-tag:
     runs-on: ubuntu-latest
