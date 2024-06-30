@@ -51,41 +51,41 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: |-
           cd app
-          npm install -g node-gyp
-          npm install
+          yarn install
 
       - name: Link API Client Package
         run: |-
           cd app/packages/api-client 
-          npm link
+          yarn link
         
       - name: Install Electron Dependencies
         run: |-
           cd app/desktop-app
-          npm install 
-          npm link @packages/api-client
+          yarn install 
+          yarn link "@packages/api-client"
 
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
         run: |-
           cd app/desktop-app
-          npm run build:linux
+          yarn build:linux
 
       - name: build-mac
         if: matrix.os == 'macos-latest'
         run: |-
           cd app/desktop-app
-          npm run build:mac
+          yarn build:mac
 
       - name: build-win
         if: matrix.os == 'windows-latest'
         run: |-
           cd app/desktop-app
-          npm run build:win
+          yarn build:win
       # latest -> lae -> dist
       - name: Remove spaces in file names - (mac & linux)
         if: matrix.os != 'windows-latest'
