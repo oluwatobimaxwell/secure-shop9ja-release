@@ -55,6 +55,7 @@ jobs:
       - name: Install Dependencies
         run: |-
           cd app
+          npm install -g node-gyp
           npm install
 
       - name: Link API Client Package
