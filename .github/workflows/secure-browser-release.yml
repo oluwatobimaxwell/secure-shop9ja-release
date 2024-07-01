@@ -124,7 +124,6 @@ jobs:
             app/desktop-app/formatted-dist/*.dmg
             app/desktop-app/formatted-dist/*.AppImage
             app/desktop-app/formatted-dist/*.snap
-            app/desktop-app/formatted-dist/*.exe
             app/desktop-app/formatted-dist/*.deb
             app/desktop-app/formatted-dist/*.rpm
             app/desktop-app/formatted-dist/*.tar.gz
