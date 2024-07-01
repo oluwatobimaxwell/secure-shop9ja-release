@@ -55,6 +55,12 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check DNS resolution
+        run: nslookup registry.yarnpkg.com
+
+      - name: Configure yarn registry
+        run: yarn config set registry https://registry.yarnpkg.com
+
       - name: Install Dependencies
         run: |-
           cd app
