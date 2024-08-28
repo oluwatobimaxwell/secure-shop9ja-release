@@ -73,32 +73,32 @@ jobs:
         
       - name: Install Electron Dependencies
         run: |-
-          cd app/desktop-app
+          cd app/apps-native/desktop-app
           yarn install 
           yarn link "@packages/api-client"
 
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
         run: |-
-          cd app/desktop-app
+          cd app/apps-native/desktop-app
           yarn build:linux
 
       - name: build-mac
         if: matrix.os == 'macos-latest'
         run: |-
-          cd app/desktop-app
+          cd app/apps-native/desktop-app
           yarn build:mac
 
       - name: build-win
         if: matrix.os == 'windows-latest'
         run: |-
-          cd app/desktop-app
+          cd app/apps-native/desktop-app
           yarn build:win
       # latest -> lae -> dist
       - name: Remove spaces in file names - (mac & linux)
         if: matrix.os != 'windows-latest'
         run: |
-          cd app/desktop-app
+          cd app/apps-native/desktop-app
           mkdir -p formatted-dist
           for file in dist/*; do
             mv "$file" "formatted-dist/$(echo $file | tr ' ' '-' | sed 's|dist/||')"
@@ -107,7 +107,7 @@ jobs:
       - name: Remove spaces in file names - (windows)
         if: matrix.os == 'windows-latest'
         run: |
-          cd app\desktop-app
+          cd app\apps-native\desktop-app
           mkdir formatted-dist -ErrorAction Ignore
           Get-ChildItem dist\* -File | ForEach-Object {
             $newName = $_.Name -replace ' ', '-'
@@ -125,13 +125,13 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            app/desktop-app/formatted-dist/*.exe
-            app/desktop-app/formatted-dist/*.zip
-            app/desktop-app/formatted-dist/*.dmg
-            app/desktop-app/formatted-dist/*.AppImage
-            app/desktop-app/formatted-dist/*.snap
-            app/desktop-app/formatted-dist/*.deb
-            app/desktop-app/formatted-dist/*.rpm
-            app/desktop-app/formatted-dist/*.tar.gz
-            app/desktop-app/formatted-dist/*.yml
-            app/desktop-app/formatted-dist/*.blockmap
+            app/apps-native/desktop-app/formatted-dist/*.exe
+            app/apps-native/desktop-app/formatted-dist/*.zip
+            app/apps-native/desktop-app/formatted-dist/*.dmg
+            app/apps-native/desktop-app/formatted-dist/*.AppImage
+            app/apps-native/desktop-app/formatted-dist/*.snap
+            app/apps-native/desktop-app/formatted-dist/*.deb
+            app/apps-native/desktop-app/formatted-dist/*.rpm
+            app/apps-native/desktop-app/formatted-dist/*.tar.gz
+            app/apps-native/desktop-app/formatted-dist/*.yml
+            app/apps-native/desktop-app/formatted-dist/*.blockmap
