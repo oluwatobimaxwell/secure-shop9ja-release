@@ -95,6 +95,21 @@ jobs:
         run: |-
           cd app/apps-native/desktop-app
           yarn build:win
+
+      - name: build-win-32bit
+        if: matrix.os == 'windows-latest'
+        run: |-
+          cd app/apps-native/desktop-app
+          # Target Windows 7 explicitly for 32-bit build
+          yarn build:win -- --win --ia32 --target "win7"
+      
+      - name: build-win-64bit
+        if: matrix.os == 'windows-latest'
+        run: |-
+          cd app/apps-native/desktop-app
+          # Target Windows 7 explicitly for 64-bit build
+          yarn build:win -- --win --x64 --target "win7"
+
       # latest -> lae -> dist
       - name: Remove spaces in file names - (mac & linux)
         if: matrix.os != 'windows-latest'
