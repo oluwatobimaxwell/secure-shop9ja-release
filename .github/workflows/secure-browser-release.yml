@@ -78,30 +78,30 @@ jobs:
           yarn install 
           yarn link "@packages/api-client"
 
-      - name: build-linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |-
-          cd app/apps-native/desktop-app
-          yarn build:linux
+      # - name: build-linux
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: |-
+      #     cd app/apps-native/desktop-app
+      #     yarn build:linux
 
-      - name: build-mac
-        if: matrix.os == 'macos-latest'
-        run: |-
-          cd app/apps-native/desktop-app
-          yarn build:mac
+      # - name: build-mac
+      #   if: matrix.os == 'macos-latest'
+      #   run: |-
+      #     cd app/apps-native/desktop-app
+      #     yarn build:mac
 
-      - name: build-win
-        if: matrix.os == 'windows-latest'
-        run: |-
-          cd app/apps-native/desktop-app
-          yarn build:win
+      # - name: build-win
+      #   if: matrix.os == 'windows-latest'
+      #   run: |-
+      #     cd app/apps-native/desktop-app
+      #     yarn build:win
 
-      - name: build-win-32bit
-        if: matrix.os == 'windows-latest'
-        run: |-
-          cd app/apps-native/desktop-app
-          # Target Windows 7 explicitly for 32-bit build
-          yarn build:win -- --win --ia32
+      # - name: build-win-32bit
+      #   if: matrix.os == 'windows-latest'
+      #   run: |-
+      #     cd app/apps-native/desktop-app
+      #     # Target Windows 7 explicitly for 32-bit build
+      #     yarn build:win -- --win --ia32
       
       - name: build-win-64bit
         if: matrix.os == 'windows-latest'
