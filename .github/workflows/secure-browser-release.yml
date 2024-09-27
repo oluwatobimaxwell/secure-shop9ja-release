@@ -47,7 +47,6 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v3
         with:
-          ref: electron-22
           repository: ${{ secrets.APP_REPO }}
           token: ${{ env.GH_TOKEN }}
           path: 'app'
